@@ -10,15 +10,19 @@ class db {
         $dbh = null;
         try {
             /*** connect to SQLite database ***/
+            define('DB_HOST',getenv('OPENSHIFT_MYSQL_DB_HOST'));
+            define('DB_PORT',getenv('OPENSHIFT_MYSQL_DB_PORT')); 
+            define('DB_USER',getenv('OPENSHIFT_MYSQL_DB_USERNAME'));
+            define('DB_PASS',getenv('OPENSHIFT_MYSQL_DB_PASSWORD'));
             $dbh = null;
-            $dsn = 'mysql:host=localhost;dbname=pedigree';
+            $dsn = 'mysql:host='.DB_HOST.';dbname=pedigree;port='.DB_PORT;
             $username = '***REMOVED***';
             $password = '***REMOVED***';
             $options = array(
                 PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
             ); 
 
-            $dbh = new PDO($dsn,$username,$password,$options);
+            $dbh = new PDO($dsn,DB_USER,DB_PASS,$options);
             $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
         catch(PDOException $e) {
