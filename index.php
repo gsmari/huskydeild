@@ -106,11 +106,22 @@ if(!empty($_REQUEST['name']) &&
     		<?php
     			$dogs = $db->getDogs();
     			if(!empty($dogs)) {
-    				echo "<ul>";
+    				echo "<table class='dogs'>";
+    				echo "<tr>";
+    					echo "<th>Fæðingardagur</th>";
+    					echo "<th>Nafn</th>";
+					echo "</tr>";
     				foreach ($dogs as $value) {
-    					echo "<li>".$value['name']."</li>";
+    					echo "<tr>";
+    						if(!empty($value['dateofbirth']))
+	    						echo "<td>".$value['dateofbirth']."</td>";
+	    					else
+	    						echo "<td></td>";
+	    					echo "<td>".$value['name']."</td>";
+    					echo "</tr>";
     				}
-    				echo "</ul>";
+    				echo "</table>";
+    				
     			}
     			else {
     				echo "<p>Enginn hundur skráður í grunninn</p>";	

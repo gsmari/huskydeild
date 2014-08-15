@@ -13,3 +13,16 @@
 .add-dog {
 	margin-left: 1rem;
 }
+.dogs {	
+	background:rgba(167,245,159,0.7);
+	/*
+	-moz-border-radius: 5rem;
+	-webkit-border-radius: 5rem;
+	border-radius: 5rem; 
+	-khtml-border-radius: 5rem; */
+}
+.dogs td,
+.dogs th {
+	padding-right: 1rem;
+	padding-left: 1rem;	
+}

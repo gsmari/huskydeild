@@ -162,12 +162,12 @@ class db {
     }
     public function getDogs() {
         $results = $this->fetchAllQuery(
-            "SELECT id,name,sex,dateofbirth FROM dog ORDER BY id ASC"
+            "SELECT id,name,sex,dateofbirth FROM dog ORDER BY dateofbirth,id ASC"
         );
         return $results;
     }
     public function loginUser($username,$password) {
-        if($username == "***REMOVED***" && $password == "***REMOVED***") {
+        if($username == "***REMOVED***" && $password == "***REMOVED***") {  //  TODO: Sleppa þessari harðkóðun
             return true;
         }
         else {

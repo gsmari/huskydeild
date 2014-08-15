@@ -55,12 +55,10 @@ if(!empty($_REQUEST['submit'])) {
 <title>Huskydeild-Gagnagrunnur</title>
 <style type="text/css">
 @import url("bootstrap/css/bootstrap.css") screen,print;
-@import url("css/default.php") screen,print;
+@import url("css/default.css") screen,print;
 </style>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="scripts/jquery.js"></script>
-<script src="scripts/login.js"></script>
-<script src="bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
 <body>
 <div class="page-header">
 	<h1>Innskráning</h1>
