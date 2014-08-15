@@ -10,6 +10,8 @@ include('includes.php');
 if(empty($db)) {
 	$db = new db();
 }
+startSession();
+require_once($path.'checkLogin.php');
 $success = null;
 $info = "";
 if(!empty($_REQUEST['name']) && 
@@ -63,7 +65,7 @@ if(!empty($_REQUEST['name']) &&
   </head>
   <body>
     <h1>Huskydeild - Gagnagrunnur</h1>
-
+	<a href="logout.php">Útskrá</a>
     <div class="row">
     	<?php
     	if($success!=null) {

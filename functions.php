@@ -12,15 +12,15 @@ function __autoload($class) {
 }
 function startSession() {
     if(!isset($_SESSION)) {
-    session_name('***REMOVED***');
-    session_start();
+	    session_name('***REMOVED***');
+	    session_start();
     }
 }
 function destroySession() {
     if(isset($_SESSION)) {
-    session_name('***REMOVED***');
-    session_unset();
-    session_destroy();
+	    session_name('***REMOVED***');
+	    session_unset();
+	    session_destroy();
     }
 }
 /*
