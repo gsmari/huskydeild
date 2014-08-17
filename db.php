@@ -160,9 +160,29 @@ class db {
         );
         return $success;
     }
+    public function addPedigree($request) {
+        $dad = ($request['dad']['value']===-1)?null:$request['dad']['value'];
+        $mom = ($request['mom']['value']===-1)?null:$request['mom']['value'];
+        $success = $this->insertUpdateQuery(
+            "INSERT INTO pedigree (id,sire_id,dam_id) 
+            VALUES(:id,:sire,:dam)",
+            array(
+                ":id" => $request['baby']['value'],
+                ":sire" => $dad,
+                ":dam" => $mom,
+            )
+        );
+        return $success;
+    }
     public function getDogs() {
         $results = $this->fetchAllQuery(
             "SELECT id,name,sex,dateofbirth FROM dog ORDER BY dateofbirth,id ASC"
+        );
+        return $results;
+    }
+    public function getPedigree() {
+        $results = $this->fetchAllQuery(
+            "SELECT baby.name as baby, dad.name as dad, mom.name as mom FROM pedigree p, dog baby, dog dad, dog mom WHERE baby.id = p.id AND dad.id = p.sire_id AND mom.id = p.dam_id"
         );
         return $results;
     }

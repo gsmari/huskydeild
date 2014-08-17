@@ -14,28 +14,28 @@ startSession();
 require_once($path.'checkLogin.php');
 $success = null;
 $info = "";
-if(!empty($_REQUEST['name']) && 
-	!empty($_REQUEST['sex'])) {
+if(!empty($_REQUEST['baby'])) {
 	$validate = array(
-		'name' => array(
-			'value' => $_REQUEST['name'],
+		'baby' => array(
+			'value' => $_REQUEST['baby'],
 			'nullAllowed' => false,
-			'type' => 'length',
-			'length' => 230),
-		'sex' => array(
-			'value' => $_REQUEST['sex'],
-			'nullAllowed' => false,
-			'type' => 'length',
-			'length' => 20),
-		'birthday' => array(
-			'value' => $_REQUEST['birthday'],
+			'type' => 'number',
+			'validSelect' => true),
+		'dad' => array(
+			'value' => $_REQUEST['dad'],
 			'nullAllowed' => true,
-			'type' => 'date'),
+			'type' => 'number',
+			'validSelect' => false),
+		'mom' => array(
+			'value' => $_REQUEST['mom'],
+			'nullAllowed' => true,
+			'type' => 'number',
+			'validSelect' => false)
 		);
 	if(validateInputLength($validate)) {
-		if($db->addDog($validate)) {
+		if($db->addPedigree($validate)) {		// TODO: BReyta í rétt fall
 			$success = true;
-			$info = $validate['name']['value']." hefur verið bætt við í gagnagrunn.";
+			$info = "Tengslum bætt við	 í gagnagrunn.";
 		}
 		else {
 			$info = "Eitthvað fór úrskeiðis, engu var bætt við í gagnagrunn.";
@@ -65,10 +65,10 @@ if(!empty($_REQUEST['name']) &&
   </head>
   <body>
     <h1><a href=".">Huskydeild - Gagnagrunnur</a></h1>
-	<ul class="nav nav-pills">
+    <ul class="nav nav-pills">
 		<li><a href="logout.php">Útskrá</a></li>
-		<li class="disabled"><a href=".">Bæta hundi í gagnagrunn</a></li>
-		<li><a href="connection.php">Bæta tengslum í gagnagrunn</a></li>
+		<li><a href=".">Bæta hundi í gagnagrunn</a></li>
+		<li class="disabled"><a href="connection.php">Bæta tengslum í gagnagrunn</a></li>
 	</ul>
     <div class="row">
     	<?php
@@ -88,49 +88,63 @@ if(!empty($_REQUEST['name']) &&
     	?>
 
     	<div class="col-md-5 add-dog">
-	    	<h3>Bæta hundi við í gagnagrunn</h3>
-	    	<form method="POST" name="add-dog" action=".">
+	    	<h3>Setja inn tengsl</h3>
+	    	<form method="POST" name="dog-connection" action="connection.php">
 				<div class="form-group">
-				    <label for="name">Nafn</label>
-				    <input type="text" name="name" id="name" class="form-control" placeholder="Nafn">
+				    <label for="baby">Hundur</label>
+				    <select name="baby" id="baby" class="form-control">
+				    	<?php
+			    		makeDogs($db);
+				    	?>
+				    </select>
 				</div>
 			    <div class="form-group">
-				    <input type="radio" name="sex" id="male" value="Male"><label for="male">Rakki</label>
-				    <input type="radio" name="sex" id="female" value="Female"><label for="female">Tík</label>
+				    <label for="dad">Faðir</label>
+				    <select name="dad" id="dad" class="form-control">
+				    	<?php
+			    		makeDogs($db);
+				    	?>
+				    </select>
 				</div>
-				<div class="form-group">
-					<label for="birthday">Fæðingardagur</label>
-					<input type="date" name="birthday" id="birthday">
+		  		<div class="form-group">
+				    <label for="mom">Móðir</label>
+				    <select name="mom" id="mom" class="form-control">
+				    	<?php
+			    		makeDogs($db);
+				    	?>
+				    </select>
 				</div>
-		  		
 	  			<button type="submit" class="btn btn-primary">Stofna</button>
 	    	</form>
     	</div>
     	<div class="col-md-5">
     		<?php
-    			$dogs = $db->getDogs();
+    			$dogs = $db->getPedigree();
     			if(!empty($dogs)) {
     				echo "<table class='dogs'>";
     				echo "<tr>";
-    					echo "<th>Fæðingardagur</th>";
-    					echo "<th>Nafn</th>";
-    					echo "<th>Kyn</th>";
+    					echo "<th>Hundur</th>";
+    					echo "<th>Faðir</th>";
+    					echo "<th>Móðir</th>";
 					echo "</tr>";
     				foreach ($dogs as $value) {
     					echo "<tr>";
-    						if(!empty($value['dateofbirth']))
-	    						echo "<td>".date("d.m.Y",strtotime($value['dateofbirth']))."</td>";
+	    					echo "<td>".$value['baby']."</td>";
+	    					if(!empty($value['dad']))
+	    						echo "<td>".$value['dad']."</td>";
 	    					else
 	    						echo "<td></td>";
-	    					echo "<td>".$value['name']."</td>";
-	    					echo "<td>".$value['sex']."</td>";
+	    					if(!empty($value['mom']))
+	    						echo "<td>".$value['mom']."</td>";
+	    					else
+	    						echo "<td></td>";
     					echo "</tr>";
     				}
     				echo "</table>";
     				
     			}
     			else {
-    				echo "<p>Enginn hundur skráður í grunninn</p>";	
+    				echo "<p>Engin tengsl skráð í grunninn</p>";	
     			}
 
     		?>

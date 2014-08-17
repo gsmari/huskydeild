@@ -15,6 +15,7 @@
 }
 .dogs {	
 	background:rgba(167,245,159,0.7);
+	font-size: 1.2rem;
 	/*
 	-moz-border-radius: 5rem;
 	-webkit-border-radius: 5rem;
@@ -25,4 +26,4 @@
 .dogs th {
 	padding-right: 1rem;
 	padding-left: 1rem;	
-}
+}	

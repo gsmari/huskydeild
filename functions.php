@@ -48,7 +48,13 @@ function request_headers()
     }
     return $headers;
 }
-
+function makeDogs($db) {
+	$dogs = $db->getDogs();
+	echo '<option selected value="-1">-Veldu hund-</option>';
+	foreach($dogs as $dog) {
+		echo '<option value="'.$dog['id'].'">'.$dog['name'].'</option>';
+	}
+}
 function validateInputLength($array) {
     $valid = true;
     $keys = array_keys($array);	// Allir lyklar í ysta fylkinu
@@ -73,6 +79,13 @@ function validateInputLength($array) {
 		    	echo $array[$keys[$i]]['value'];
 				$valid = false;
 				break;
+		    }
+		    elseif(!empty($array[$keys[$i]]['validSelect']) && 
+		    	$array[$keys[$i]]['validSelect'] && 
+		    	$array[$keys[$i]]['value']===-1) {
+		    	echo $array[$keys[$i]]['value'];
+				$valid = false;
+				break;	
 		    }
 		}
 		else if($array[$keys[$i]]['type']=='date') {
