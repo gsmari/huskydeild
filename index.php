@@ -101,6 +101,7 @@ if(!empty($_REQUEST['name']) &&
 				<div class="form-group">
 					<label for="birthday">Fæðingardagur</label>
 					<input type="date" name="birthday" id="birthday">
+					<p>Í Firefox: yyyy-mm-dd</p>
 				</div>
 		  		
 	  			<button type="submit" class="btn btn-primary">Stofna</button>
