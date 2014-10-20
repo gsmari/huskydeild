@@ -160,6 +160,24 @@ class db {
         );
         return $success;
     }
+    public function addDogLitter($request) {
+        $success = $this->addDog($request);
+        if($success)
+            $request['baby']['value'] = $this->getDogID($request);
+        else
+            return false;
+        $success = $this->addPedigree($request);
+        return $success;
+    }
+    public function getDogID($request) {
+        $id = $this->fetchQuery(
+            "SELECT id FROM dog WHERE name=:name",
+            array(
+                ":name" => $request['name']['value']),
+            "id"
+            );
+        return $id;
+    }
     public function addPedigree($request) {
         $dad = ($request['dad']['value']===-1)?null:$request['dad']['value'];
         $mom = ($request['mom']['value']===-1)?null:$request['mom']['value'];

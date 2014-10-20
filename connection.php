@@ -100,7 +100,7 @@ if(!empty($_REQUEST['baby'])) {
 				    <label for="dad">Faðir</label>
 				    <select name="dad" id="dad" class="form-control">
 				    	<?php
-			    		makeDogs($db);
+			    		makeDogs($db,"Male");
 				    	?>
 				    </select>
 				</div>
@@ -108,7 +108,7 @@ if(!empty($_REQUEST['baby'])) {
 				    <label for="mom">Móðir</label>
 				    <select name="mom" id="mom" class="form-control">
 				    	<?php
-			    		makeDogs($db);
+			    		makeDogs($db,"Female");
 				    	?>
 				    </select>
 				</div>

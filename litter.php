@@ -15,31 +15,56 @@ require_once($path.'checkLogin.php');
 $success = null;
 $info = "";
 if(!empty($_REQUEST['name']) && 
-	!empty($_REQUEST['sex'])) {
+	!empty($_REQUEST['mom']) &&
+	!empty($_REQUEST['dad']) &&
+	!empty($_REQUEST['birthday'])) {
 	$validate = array(
 		'name' => array(
 			'value' => $_REQUEST['name'],
 			'nullAllowed' => false,
 			'type' => 'length',
 			'length' => 230),
-		'sex' => array(
-			'value' => $_REQUEST['sex'],
+		'mom' => array(
+			'value' => $_REQUEST['mom'],
 			'nullAllowed' => false,
 			'type' => 'length',
-			'length' => 20),
+			'length' => 230),
+		'dad' => array(
+			'value' => $_REQUEST['dad'],
+			'nullAllowed' => false,
+			'type' => 'length',
+			'length' => 230),
 		'birthday' => array(
 			'value' => $_REQUEST['birthday'],
-			'nullAllowed' => true,
+			'nullAllowed' => false,
 			'type' => 'date'),
 		);
+/* TODO: Nota getKeys úr fundtions til að sækja alla keys úr $_REQUEST sem innihalda "sex-"
+og hreinsa inputið úr þessum strengjum.
+Einnig væri mjög æskilegt að takmarka fjölda "sex" staka í $_REQUESt fylkinu.
+*/
+
 	if(validateInputLength($validate)) {
-		if($db->addDog($validate)) {
-			$success = true;
-			$info = $validate['name']['value']." hefur verið bætt við í gagnagrunn.";
-		}
-		else {
-			$info = "Eitthvað fór úrskeiðis, engu var bætt við í gagnagrunn.";
-			$success = false;
+		$success_names = array();
+		$failed_names = array();
+		for($i=0;$i<sizeof($_REQUEST['name']);$i++) {
+			$dog = array(
+				'name' => array('value' => $_REQUEST['name'][$i]),
+				'sex' => array('value' => $_REQUEST['sex-'.$i]),
+				'birthday' => array('value' => $_REQUEST['birthday']),
+				'mom' => array('value' => $_REQUEST['mom']),
+				'dad' => array('value' => $_REQUEST['dad']),
+			);
+			if($db->addDogLitter($dog)) {
+				$success = true;
+				$info = "";
+				array_push($success_names, $dog['name']['value']);
+			}
+			else {
+				$info = "";
+				$success = false;
+				array_push($failed_names, $dog['name']['value']);
+			}
 		}
 	}
 }
@@ -77,7 +102,7 @@ if(!empty($_REQUEST['name']) &&
 
     	<div class="col-md-4 add-dog">
 	    	<h3>Bæta við goti í gagnagrunn</h3>
-	    	<form method="POST" name="add-litter" action=".">
+	    	<form method="POST" name="add-litter" action="litter.php">
 				<div class="form-group">
 					<label for="birthday">Fæðingardagur</label>
 					<input type="date" name="birthday" id="birthday">
@@ -108,8 +133,8 @@ if(!empty($_REQUEST['name']) &&
 					    <input type="text" name="name[]" class="form-control" placeholder="Nafn">
 					</div>
 				    <div class="form-group dog-name sex">
-					    <input type="radio" name="sex[]" value="Male"><label for="male">Rakki</label>
-					    <input type="radio" name="sex[]" value="Female"><label for="female">Tík</label>
+					    <input type="radio" name="sex-0" id="male-0" value="Male"><label for="male-0">Rakki</label>
+					    <input type="radio" name="sex-0" id="female-0" value="Female"><label for="female-0">Tík</label>
 					</div>
 					<a class="btn btn-primary" id="dogplus-0">+</a>
 				</div>

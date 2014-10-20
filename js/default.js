@@ -16,8 +16,8 @@ function writeDogdetails(container) {
 		    <input type="text" name="name[]" class="form-control" placeholder="Nafn"> \
 		</div> \
 	    <div class="form-group dog-name sex"> \
-		    <input type="radio" name="sex[]" value="male"><label for="male">Rakki</label> \
-		    <input type="radio" name="sex[]" value="female"><label for="female">Tík</label> \
+		    <input type="radio" name="sex-'+newid+'" id="male-'+newid+'" value="Male"><label for="male-'+newid+'">Rakki</label> \
+		    <input type="radio" name="sex-'+newid+'" id="female-'+newid+'" value="Female"><label for="female-'+newid+'">Tík</label> \
 		</div> \
 		<a class="btn btn-danger" id="dogminus-' + newid +'">-</a> \
 	</div>');
@@ -27,7 +27,6 @@ function writeDogdetails(container) {
 function addDogHandlers(newid) {
 	$("#dogminus-"+newid).click(function(e) {
 		e.preventDefault();
-		console.log(newid);
 		if ($(".dog-name-container").length > 1) {
 			$("#"+event.target.id).parent().remove();
 		}

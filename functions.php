@@ -55,6 +55,17 @@ function makeDogs($db,$gender="all") {
 		echo '<option value="'.$dog['id'].'">'.$dog['name'].'</option>';
 	}
 }
+function getKeys($array,$instr) {
+	$keys = array();
+
+	foreach (array_keys($array) as $key => $value) {
+		if(strpos($key, $instr)!==false) {
+			array_push($keys,$key);
+		}
+	}
+	return $keys;
+	
+}
 function validateInputLength($array) {
     $valid = true;
     $keys = array_keys($array);	// Allir lyklar í ysta fylkinu
