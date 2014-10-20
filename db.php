@@ -174,10 +174,19 @@ class db {
         );
         return $success;
     }
-    public function getDogs() {
-        $results = $this->fetchAllQuery(
-            "SELECT id,name,sex,dateofbirth FROM dog ORDER BY dateofbirth,id ASC"
-        );
+    public function getDogs($gender="all") {
+        $results = null;
+        if($gender!="all") {
+            $results = $this->fetchAllQuery(
+                "SELECT id,name,sex,dateofbirth FROM dog WHERE sex=:sex ORDER BY dateofbirth,id ASC",
+                array(":sex" => $gender)
+            );
+        }
+        else {
+            $results = $this->fetchAllQuery(
+                "SELECT id,name,sex,dateofbirth FROM dog ORDER BY dateofbirth,id ASC"
+            );
+        }
         return $results;
     }
     public function getPedigree() {

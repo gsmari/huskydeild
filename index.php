@@ -66,9 +66,7 @@ if(!empty($_REQUEST['name']) &&
   <body>
     <h1><a href=".">Huskydeild - Gagnagrunnur</a></h1>
 	<ul class="nav nav-pills">
-		<li><a href="logout.php">Útskrá</a></li>
-		<li class="disabled"><a href=".">Bæta hundi í gagnagrunn</a></li>
-		<li><a href="connection.php">Bæta tengslum í gagnagrunn</a></li>
+		<?=writeNavigation();?>
 	</ul>
     <div class="row">
     	<?php

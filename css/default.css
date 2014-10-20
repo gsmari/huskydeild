@@ -26,4 +26,36 @@
 .dogs th {
 	padding-right: 1rem;
 	padding-left: 1rem;	
-}	
+}
+.parents-parent {
+	position:relative;
+	margin: auto;
+	width:70rem;
+}
+.parents {
+	display:inline-block;
+	width: 35%;
+}
+.dog-name#name {
+	display: inline-block;
+	position:relative;
+	margin:0;
+
+}
+.dog-name.btn-primary {
+	position: relative;
+	display: inline-block;
+	
+}
+.dog-name-container {
+	display:block;
+	width: 60rem;
+}
+.dog-name {
+	display:inline-block;
+	width: 50%;
+	margin:0;
+}
+.dog-name.sex {
+	width:30%;
+}

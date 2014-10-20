@@ -48,8 +48,8 @@ function request_headers()
     }
     return $headers;
 }
-function makeDogs($db) {
-	$dogs = $db->getDogs();
+function makeDogs($db,$gender="all") {
+	$dogs = $db->getDogs($gender);
 	echo '<option selected value="-1">-Veldu hund-</option>';
 	foreach($dogs as $dog) {
 		echo '<option value="'.$dog['id'].'">'.$dog['name'].'</option>';
@@ -107,6 +107,28 @@ function filterHTML(&$value) {
 
 function removeqsvar($url, $varname) {
     return preg_replace('/([?&])'.$varname.'=[^&]+(&|$)/','$2',$url);
+}
+function writeHead() {
+	echo '<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Huskydeild-Gagnagrunnur</title>
+	<link rel="shortcut icon" type="image/png" href="favicon.ico"/>
+    
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/default.css" rel="stylesheet">
+	
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="js/default.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>';
+}
+function writeNavigation() {
+echo '
+	<li><a href="logout.php">Útskrá</a></li>
+	<li><a href=".">Bæta hundi í gagnagrunn</a></li>
+	<li><a href="connection.php">Bæta tengslum í gagnagrunn</a></li>
+	<li><a href="litter.php">Bæta við goti</a></li>
+	';
 }
 
 ?>
