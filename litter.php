@@ -14,16 +14,34 @@ startSession();
 require_once($path.'checkLogin.php');
 $success = null;
 $info = "";
-if(!empty($_REQUEST['name']) && 
-	!empty($_REQUEST['mom']) &&
+if(!empty($_REQUEST['mom']) &&
 	!empty($_REQUEST['dad']) &&
 	!empty($_REQUEST['birthday'])) {
+
+	$sex = getKeys($_REQUEST,"sex-");
+	$names = getKeys($_REQUEST,"name-");
+	if(sizeof($sex)!=sizeof($names)) {
+		$success = false;
+		$info = "Tilgreina þarf nafn og kyn á öllum hundum.";
+	}
+	elseif(sizeof($names)>20) {
+		$success = false;
+		$info = "Ekki er hægt að skrá fleiri en 20 hunda í einu.";
+	}
 	$validate = array(
 		'name' => array(
-			'value' => $_REQUEST['name'],
+			'value' => $names,
 			'nullAllowed' => false,
-			'type' => 'length',
-			'length' => 230),
+			'type' => 'array',
+			'underType' => 'length',
+			'strLength' => 230,
+			'sizeof' => 20),
+		'sex' => array(
+			'value' => $sex,
+			'nullAllowed' => false,
+			'type' => 'array',
+			'underType' => 'gender',
+			'sizeof' => 20),
 		'mom' => array(
 			'value' => $_REQUEST['mom'],
 			'nullAllowed' => false,
@@ -39,31 +57,26 @@ if(!empty($_REQUEST['name']) &&
 			'nullAllowed' => false,
 			'type' => 'date'),
 		);
-/* TODO: Nota getKeys úr fundtions til að sækja alla keys úr $_REQUEST sem innihalda "sex-"
-og hreinsa inputið úr þessum strengjum.
-Einnig væri mjög æskilegt að takmarka fjölda "sex" staka í $_REQUESt fylkinu.
-*/
 
-	if(validateInputLength($validate)) {
-		$success_names = array();
-		$failed_names = array();
-		for($i=0;$i<sizeof($_REQUEST['name']);$i++) {
+	if(!$success && validateInputLength($validate)) {
+		$progress_names = array();
+		$keys_names = array_keys($validate['name']['value']);
+		$keys_sex = array_keys($validate['sex']['value']);
+		for($i=0;$i<sizeof($keys_names);$i++) {
 			$dog = array(
-				'name' => array('value' => $_REQUEST['name'][$i]),
-				'sex' => array('value' => $_REQUEST['sex-'.$i]),
+				'name' => array('value' => $validate['name']['value'][$keys_names[$i]]),
+				'sex' => array('value' => $validate['sex']['value'][$keys_sex[$i]]),
 				'birthday' => array('value' => $_REQUEST['birthday']),
 				'mom' => array('value' => $_REQUEST['mom']),
 				'dad' => array('value' => $_REQUEST['dad']),
 			);
 			if($db->addDogLitter($dog)) {
-				$success = true;
-				$info = "";
-				array_push($success_names, $dog['name']['value']);
+				array_push($progress_names, array('value' => $dog['name']['value'],
+					'success' => true));
 			}
 			else {
-				$info = "";
-				$success = false;
-				array_push($failed_names, $dog['name']['value']);
+				array_push($progress_names, array('value' => $dog['name']['value'],
+					'success' => false));
 			}
 		}
 	}
@@ -84,28 +97,42 @@ Einnig væri mjög æskilegt að takmarka fjölda "sex" staka í $_REQUESt fylki
 		<?=writeNavigation();?>
 	</ul>
     <div class="row">
+    	<div class="col-md-10 add-dog">
     	<?php
-    	if($success!=null) {
-    		if($success) {
+    	for($i=0;$i<sizeof($progress_names);$i++) {
+    		if($progress_names[$i]['success']) {
+    			$info = $progress_names[$i]['value']." var bætt við í grunninn.";
     		?>
-    			<div class="alert alert-success" role="alert"><?=$info?></div>
+    			<div class="alert alert-success alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<span>
+						<?=$info?>
+					</span>
+    			</div>
     	<?php
 			}
 			else {
+				$info = $progress_names[$i]['value']." var EKKI bætt við í grunninn.";
 				?>
-				<div class="alert alert-danger" role="alert"><?=$info?></div>	
-
+				<div class="alert alert-danger alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<span>
+						<?=$info?>
+					</span>
+				</div>
 		<?php
 			}
 		}
     	?>
-
+		</div>
+	</div>
+	<div class="row">
     	<div class="col-md-4 add-dog">
 	    	<h3>Bæta við goti í gagnagrunn</h3>
 	    	<form method="POST" name="add-litter" action="litter.php">
 				<div class="form-group">
 					<label for="birthday">Fæðingardagur</label>
-					<input type="date" name="birthday" id="birthday">
+					<input type="date" name="birthday" id="birthday" required>
 					<p>Í Firefox: yyyy-mm-dd</p>
 				</div>
 				<div class="parents-parent">
@@ -130,7 +157,7 @@ Einnig væri mjög æskilegt að takmarka fjölda "sex" staka í $_REQUESt fylki
 				<div class="dog-name-container">
 					<div class="form-group dog-name">
 					    <label for="name">Nafn</label>
-					    <input type="text" name="name[]" class="form-control" placeholder="Nafn">
+					    <input type="text" name="name-0" class="form-control" placeholder="Nafn">
 					</div>
 				    <div class="form-group dog-name sex">
 					    <input type="radio" name="sex-0" id="male-0" value="Male"><label for="male-0">Rakki</label>

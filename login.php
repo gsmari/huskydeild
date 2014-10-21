@@ -23,7 +23,7 @@ if(!empty($_REQUEST['submit'])) {
 										'nullAllowed' => false));
 	$valid = validateInputLength($validate);
 	if(!$valid) {
-		$message = "Notendanafn og lykilorð má ekki vera lengra en 250 stafir.";
+		$message = "Notandanafn og lykilorð má ekki vera lengra en 250 stafir.";
 	}
 	else {
 		if($db->loginUser($_REQUEST['username'],$_REQUEST['password'])) {
@@ -37,7 +37,7 @@ if(!empty($_REQUEST['submit'])) {
 			header("Location: .");
 		}
 		else
-			$message = "Notendanafn og/eða lykilorð er ekki rétt. Vinsamlegast gakktu úr skugga um að rétt sé slegið inn.";
+			$message = "Notandanafn og/eða lykilorð er ekki rétt. Vinsamlegast gakktu úr skugga um að rétt sé slegið inn.";
 	}
 
 }
@@ -73,7 +73,7 @@ if(!empty($_REQUEST['submit'])) {
 		<div class="input-group input-group-sm">
 			<form action="<?=$_SERVER['PHP_SELF']?>" method="POST">
 				<div class="form-group">
-					<label for="username">Notendanafn</label>
+					<label for="username">Notandanafn</label>
 					<input type="text" name="username" id="username" placeholder="Sláðu inn notendanafn" class="form-control" required/>    
 				</div>
 				<div class="form-group">

@@ -55,15 +55,15 @@ function makeDogs($db,$gender="all") {
 		echo '<option value="'.$dog['id'].'">'.$dog['name'].'</option>';
 	}
 }
-function getKeys($array,$instr) {
-	$keys = array();
+function getKeys($request,$instr) {
+	$array = array();
 
-	foreach (array_keys($array) as $key => $value) {
-		if(strpos($key, $instr)!==false) {
-			array_push($keys,$key);
+	foreach ($request as $key => $value) {
+		if(strpos($key, $instr) !== false) {
+			$array[$key] = $value;
 		}
 	}
-	return $keys;
+	return $array;
 	
 }
 function validateInputLength($array) {
@@ -83,6 +83,40 @@ function validateInputLength($array) {
 			echo $array[$keys[$i]]['value'];
 			$valid = false;
 			break;
+		    }
+		}
+		else if($array[$keys[$i]]['type']=='array') {
+			if($array[$keys[$i]]['underType']=='length') {
+				foreach ($array[$keys[$i]]['value'] as $key => $value) {
+				    if(strlen($value) >= $array[$keys[$i]]['strLength']) {
+					echo $value;
+					$valid = false;
+					break;
+				    }
+				}
+
+		    }
+		    elseif($array[$keys[$i]]['underType']=='gender') {
+		    	foreach ($array[$keys[$i]]['value'] as $key => $value) {
+				    if($value!="Male" && $value!="Female") {
+					echo $value;
+
+					$valid = false;
+					break;
+				    }
+				}
+		    }
+		    else {
+		    	echo $array[$keys[$i]]['value'];
+				$valid = false;
+				break;
+		    }
+		    // Check if size of the array is to big
+		    if(sizeof($array[$keys[$i]]['value'])>$array[$keys[$i]]['sizeof']) {
+		    	echo $value;
+
+				$valid = false;
+				break;
 		    }
 		}
 		else if($array[$keys[$i]]['type']=='number') {

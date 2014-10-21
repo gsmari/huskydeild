@@ -1,19 +1,18 @@
 $(function() {
+	var newid = 0;
 	$("#dogplus-0").click(function(e) {
 		e.preventDefault();
-		writeDogdetails(event.target.id);
+		writeDogdetails(event.target.id,++newid);
 	});
 });
 
-function writeDogdetails(container) {
+function writeDogdetails(container,newid) {
 
-	var newid = $(".dog-name-container").length;
-
-	$("#"+container).parent().after().append(' \
+	$("#"+container).parent().after(' \
 		<div class="dog-name-container"> \
 		<div class="form-group dog-name"> \
 		    <label for="name">Nafn</label> \
-		    <input type="text" name="name[]" class="form-control" placeholder="Nafn"> \
+		    <input type="text" name="name-'+newid+'" class="form-control" placeholder="Nafn"> \
 		</div> \
 	    <div class="form-group dog-name sex"> \
 		    <input type="radio" name="sex-'+newid+'" id="male-'+newid+'" value="Male"><label for="male-'+newid+'">Rakki</label> \
@@ -24,7 +23,7 @@ function writeDogdetails(container) {
 	addDogHandlers(newid);
 	
 }
-function addDogHandlers(newid) {
+function addDogHandlers(newid,nextid) {
 	$("#dogminus-"+newid).click(function(e) {
 		e.preventDefault();
 		if ($(".dog-name-container").length > 1) {
