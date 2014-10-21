@@ -12,8 +12,7 @@ if(empty($db)) {
 }
 startSession();
 require_once($path.'checkLogin.php');
-$success = null;
-$info = "";
+$progress_names = array();
 if(!empty($_REQUEST['mom']) &&
 	!empty($_REQUEST['dad']) &&
 	!empty($_REQUEST['birthday'])) {
@@ -57,9 +56,9 @@ if(!empty($_REQUEST['mom']) &&
 			'nullAllowed' => false,
 			'type' => 'date'),
 		);
-
+	
 	if(!$success && validateInputLength($validate)) {
-		$progress_names = array();
+		
 		$keys_names = array_keys($validate['name']['value']);
 		$keys_sex = array_keys($validate['sex']['value']);
 		for($i=0;$i<sizeof($keys_names);$i++) {
