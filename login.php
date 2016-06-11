@@ -28,7 +28,7 @@ if(!empty($_REQUEST['submit'])) {
 	else {
 		if($db->loginUser($_REQUEST['username'],$_REQUEST['password'])) {
 			//$_SESSION["valid_user"] = $db->getUserInfoByUsername($_REQUEST['username']);
-			$_SESSION["valid_user"] = "***REMOVED***";
+			$_SESSION["valid_user"] = "huskydeild";
 			//$_SESSION["valid_name"] = $row['name'];
 			$_SESSION["valid_time"] = time();
 			//$_SESSION["valid_access"] = $row['accessLevel'];

@@ -8,17 +8,17 @@
 function __autoload($class) {
 	global $path;
 	if(file_exists($path.$class.'.php'))
-		include $path.$class.'.php';	// path er í includes)
+		include $path.$class.'.php';	// path er í includes.php
 }
 function startSession() {
     if(!isset($_SESSION)) {
-	    session_name('***REMOVED***');
+	    session_name('huskydeild');
 	    session_start();
     }
 }
 function destroySession() {
     if(isset($_SESSION)) {
-	    session_name('***REMOVED***');
+	    session_name('huskydeild');
 	    session_unset();
 	    session_destroy();
     }
@@ -163,7 +163,7 @@ function writeHead() {
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/default.css" rel="stylesheet">
 	
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="js/default.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>';
 }

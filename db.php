@@ -24,8 +24,8 @@ class db {
                 $dsn = 'mysql:host='.DB_HOST.';dbname=pedigree;port='.DB_PORT;
             else
                 $dsn = 'mysql:host=localhost;dbname=pedigree;';
-            $username = '***REMOVED***';
-            $password = '***REMOVED***';
+            $username = '';
+            $password = '';
             $options = array(
                 PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
             ); 
@@ -214,7 +214,7 @@ class db {
         return $results;
     }
     public function loginUser($username,$password) {
-        if($username == "***REMOVED***" && $password == "***REMOVED***") {  //  TODO: Sleppa þessari harðkóðun
+        if($username == "**REMOVED**" && $password == "**REMOVED**") {  //  TODO: Sleppa þessari harðkóðun
             return true;
         }
         else {
